@@ -1,0 +1,54 @@
+
+REGISTER '/usr/local/pig/lib/piggybank.jar';
+
+1. Find the number of students who scored less than 5(50%).
+
+|
+| A = load '/home/acadgild/studentDS.txt' using org.apache.pig.piggybank.storage.CSVExcelStorage(',','NO_MULTILINE','UNIX','SKIP_INPUT_HEADER');
+|
+| B = FILTER A BY $4<5;
+|
+| C = GROUP B all;
+|
+| D = FOREACH C GENERATE COUNT(B) as number_of_students_less_five;
+|
+| DUMP D;
+|
+
+2. List the name of students who are from Alaska.
+
+|
+| A = load '/home/acadgild/studentDS.txt' using org.apache.pig.piggybank.storage.CSVExcelStorage(',','NO_MULTILINE','UNIX','SKIP_INPUT_HEADER');
+| 
+| B = FILTER A BY LOWER($5) MATCHES 'alaska';
+|
+| C = FOREACH B GENERATE $0;
+|
+| DUMP C;
+|
+
+3. How many government collages are there in Alabama?
+
+|
+| A = load '/home/acadgild/studentDS.txt' using org.apache.pig.piggybank.storage.CSVExcelStorage(',','NO_MULTILINE','UNIX','SKIP_INPUT_HEADER');
+|
+| B = FILTER A BY LOWER($5) MATCHES 'alabama' AND LOWER($1) matches 'goverenment';
+|
+| C = GROUP B all;
+|
+| D = FOREACH C GENERATE COUNT(B) as number_of_govt_colleges;
+|
+| DUMPT D;
+|
+
+4. List the name of students who are from Oregon and persuing BE.
+
+|
+| A = load '/home/acadgild/studentDS.txt' using org.apache.pig.piggybank.storage.CSVExcelStorage(',','NO_MULTILINE','UNIX','SKIP_INPUT_HEADER');
+|
+| B = FILTER A BY LOWER($5) MATCHES 'oregon' AND LOWER($3) matches 'be';
+|
+| C = FOREACH B GENERATE $0;
+|
+| DUMP C;
+|
